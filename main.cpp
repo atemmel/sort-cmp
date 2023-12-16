@@ -28,7 +28,7 @@ auto eprint(std::string_view msg, std::string_view rest...) -> void {
 
 auto ensure(bool condition, std::string_view msg...) -> void {
     if (!condition) {
-        std::cout << msg << '\n';
+        eprint(msg);
         std::exit(1);
     }
 }
