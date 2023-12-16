@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "atemmel/dumb.hpp"
+#include "atemmel/first.hpp"
 
 struct Datasets {
     std::vector<std::string> stringDataset;
@@ -21,14 +22,16 @@ auto eprint(std::string_view msg) -> void {
     std::cerr << msg << '\n';
 };
 
-auto eprint(std::string_view msg, std::string_view rest...) -> void {
+template <typename... Args>
+auto eprint(std::string_view msg, Args... args) -> void {
     std::cerr << msg;
-    eprint(rest);
+    eprint(args...);
 };
 
-auto ensure(bool condition, std::string_view msg...) -> void {
+template <typename... Messages>
+auto ensure(bool condition, Messages... msgs) -> void {
     if (!condition) {
-        eprint(msg);
+        eprint(msgs...);
         std::exit(1);
     }
 }
@@ -87,6 +90,7 @@ auto benchmarkImpl(SortImpl sort, Dataset dataset, std::string_view datasetName)
                " did not manage to sort ", datasetName);
         auto dt = delta(before, after);
         std::cout << dt << "ms\n";
+        std::cout.flush();
     }
 }
 
