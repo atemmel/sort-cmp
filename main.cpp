@@ -69,9 +69,9 @@ auto benchmarkImpl(SortImpl sort, Dataset dataset, std::string_view datasetName)
         return std::is_sorted(v.begin(), v.end());
     };
 
-    auto now = []() -> double {
-        return std::chrono::duration_cast<std::chrono::milliseconds>(
-                   std::chrono::high_resolution_clock::now().time_since_epoch())
+    auto now   = []() { return std::chrono::high_resolution_clock::now(); };
+    auto delta = [](auto before, auto after) -> double {
+        return std::chrono::duration<double, std::milli>(after - before)
             .count();
     };
 
@@ -85,7 +85,7 @@ auto benchmarkImpl(SortImpl sort, Dataset dataset, std::string_view datasetName)
 
         ensure(isSorted(dataset), prettyTypeid<SortImpl>(),
                " did not manage to sort ", datasetName);
-        auto dt = after - before;
+        auto dt = delta(before, after);
         std::cout << dt << "ms\n";
     }
 }
@@ -103,5 +103,5 @@ auto main() -> int {
         .integerDataset = readInts(),
     };
 
-    benchmark(DumbSort{}, datasets);
+    benchmark(atemmel::DumbSort{}, datasets);
 }

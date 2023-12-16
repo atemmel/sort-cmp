@@ -2,8 +2,10 @@
 
 #include <algorithm>
 
+namespace atemmel {
+
 template <typename T>
-auto dumbSort(T *first, T *last) -> void {
+static auto dumbSort(T *first, T *last) -> void {
     std::sort(first, last);
 }
 
@@ -13,3 +15,5 @@ struct DumbSort {
         dumbSort(first, last);
     }
 };
+
+}  // namespace atemmel
